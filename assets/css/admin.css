@@ -1,0 +1,215 @@
+/* =============================================
+   Kivii Online Afspraak – Admin CSS
+   ============================================= */
+
+.kivii-admin-wrap {
+    max-width: 900px;
+}
+
+.kivii-admin-wrap h1 {
+    margin-bottom: 1rem;
+}
+
+/* Toolbar */
+.kivii-toolbar {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Modals */
+.kivii-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kivii-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 95%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
+}
+
+.kivii-modal-content h2 {
+    margin-bottom: 1rem;
+}
+
+/* Badges */
+.kivii-badge-active {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #059669;
+    color: white;
+}
+
+.kivii-badge-inactive {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #DC2626;
+    color: white;
+}
+
+/* Category blocks */
+.kivii-category-block {
+    margin-bottom: 2rem;
+}
+
+.kivii-category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+.kivii-category-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.kivii-category-header small {
+    color: #666;
+    font-weight: 400;
+}
+
+/* Status badges on bookings */
+.kivii-status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.kivii-status-pending {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.kivii-status-confirmed {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.kivii-status-cancelled {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Filters bar */
+.kivii-filters {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.kivii-filters form {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Detail page */
+.kivii-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.kivii-detail-card {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.kivii-detail-card h2 {
+    font-size: .95rem;
+    margin-bottom: .75rem;
+    color: #0B3D91;
+}
+
+.kivii-detail-full {
+    grid-column: 1 / -1;
+}
+
+.kivii-detail-actions {
+    display: flex;
+    gap: .5rem;
+    margin-top: 1rem;
+}
+
+/* Log levels */
+.kivii-log-info {
+    color: #2563EB;
+    font-weight: 700;
+}
+
+.kivii-log-warning {
+    color: #D97706;
+    font-weight: 700;
+}
+
+.kivii-log-error {
+    color: #DC2626;
+    font-weight: 700;
+}
+
+/* Empty state */
+.kivii-empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6B7280;
+}
+
+/* Color picker (WP) */
+.kivii-color-picker {
+    max-width: 200px;
+}
+
+/* Language tabs */
+.kivii-lang-tabs {
+    margin-bottom: 1rem;
+}
+
+/* Placeholder list */
+.kivii-placeholder-list {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #F9FAFB;
+    border-radius: 6px;
+    border: 1px solid #E5E7EB;
+}
+
+.kivii-placeholder-list h3 {
+    margin-bottom: .5rem;
+    font-size: .9rem;
+}
+
+.kivii-placeholder-list code {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 12px;
+    background: #E5E7EB;
+    border-radius: 3px;
+}
