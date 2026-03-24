@@ -10,11 +10,11 @@ $options = get_option( 'kivii_styling', [] );
         <table class="form-table">
             <tr>
                 <th><label for="primary_color">Primaire kleur</label></th>
-                <td><input type="text" id="primary_color" name="kivii_styling[primary_color]" value="<?php echo esc_attr( $options['primary_color'] ?? '#0B3D91' ); ?>" class="kivii-color-picker"></td>
+                <td><input type="text" id="primary_color" name="kivii_styling[primary_color]" value="<?php echo esc_attr( $options['primary_color'] ?? '#B0C426' ); ?>" class="kivii-color-picker"></td>
             </tr>
             <tr>
                 <th><label for="secondary_color">Secundaire kleur</label></th>
-                <td><input type="text" id="secondary_color" name="kivii_styling[secondary_color]" value="<?php echo esc_attr( $options['secondary_color'] ?? '#E5A100' ); ?>" class="kivii-color-picker"></td>
+                <td><input type="text" id="secondary_color" name="kivii_styling[secondary_color]" value="<?php echo esc_attr( $options['secondary_color'] ?? '#B0C426' ); ?>" class="kivii-color-picker"></td>
             </tr>
             <tr>
                 <th><label for="background_color">Achtergrondkleur</label></th>

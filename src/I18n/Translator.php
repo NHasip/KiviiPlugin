@@ -65,7 +65,7 @@ class Translator {
 
                 // Step 2
                 'step2_title'          => 'Selecteer uw werkzaamheden',
-                'step2_subtitle'       => 'Kies de werkzaamheden die aan uw auto uitgevoerd moeten worden.',
+                'step2_subtitle'       => 'Kies werkzaamheden die aan uw auto moeten gebeuren.',
                 'min_service_note'     => 'Selecteer minimaal één werkzaamheid.',
                 'addons_title'         => 'Aanvullende werkzaamheden',
                 'total_price_label'    => 'Totaal',

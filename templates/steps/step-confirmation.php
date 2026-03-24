@@ -2,8 +2,8 @@
 <div class="kivii-step-content kivii-confirmation">
     <div class="kivii-confirmation__icon">
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="40" cy="40" r="38" stroke="var(--kivii-success)" stroke-width="3" fill="none"/>
-            <path d="M24 40L35 51L56 30" stroke="var(--kivii-success)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="40" r="38" stroke="var(--kivii-primary)" stroke-width="3" fill="none"/>
+            <path d="M24 40L35 51L56 30" stroke="var(--kivii-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </div>
     <h2 class="kivii-confirmation__title" data-text="confirm_title">Afspraak bevestigd!</h2>

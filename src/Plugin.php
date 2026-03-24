@@ -3,6 +3,8 @@
 namespace Kivii;
 
 use Kivii\Admin\AdminMenu;
+use Kivii\Database\Schema;
+use Kivii\Database\ServiceRepository;
 use Kivii\Frontend\Shortcode;
 use Kivii\Frontend\GutenbergBlock;
 use Kivii\Rest\RestController;
@@ -39,6 +41,15 @@ class Plugin {
         // Translator
         Translator::instance()->init();
 
+        // Keep schema and seed data aligned on plugin updates.
+        $this->maybe_upgrade_database();
+
+        // Migrate legacy default colors to the Kivii house style.
+        $this->maybe_migrate_styling_defaults();
+
+        // Ensure the services catalog exists for fresh or empty installs.
+        $this->maybe_seed_default_services();
+
         // Admin
         if ( is_admin() ) {
             ( new AdminMenu() )->init();
@@ -64,6 +75,52 @@ class Plugin {
 
         // Output CSS variables
         add_action( 'wp_head', [ $this, 'output_css_variables' ] );
+    }
+
+    /**
+     * Run schema updates when the plugin version introduces database changes.
+     */
+    private function maybe_upgrade_database(): void {
+        if ( get_option( 'kivii_db_version' ) === KIVII_DB_VERSION ) {
+            return;
+        }
+
+        Schema::create_tables();
+        update_option( 'kivii_db_version', KIVII_DB_VERSION );
+    }
+
+    /**
+     * Update legacy styling defaults when they were never customized.
+     */
+    private function maybe_migrate_styling_defaults(): void {
+        $options = get_option( 'kivii_styling', null );
+
+        if ( ! is_array( $options ) ) {
+            return;
+        }
+
+        $updated = false;
+
+        if ( ( $options['primary_color'] ?? null ) === '#0B3D91' ) {
+            $options['primary_color'] = '#B0C426';
+            $updated                  = true;
+        }
+
+        if ( ( $options['secondary_color'] ?? null ) === '#E5A100' ) {
+            $options['secondary_color'] = '#B0C426';
+            $updated                    = true;
+        }
+
+        if ( $updated ) {
+            update_option( 'kivii_styling', $options );
+        }
+    }
+
+    /**
+     * Seed the default catalog on installs without services.
+     */
+    private function maybe_seed_default_services(): void {
+        ( new ServiceRepository() )->ensure_default_catalog();
     }
 
     /**
@@ -149,8 +206,8 @@ class Plugin {
     public function output_css_variables(): void {
         $options = get_option( 'kivii_styling', [] );
 
-        $primary   = $options['primary_color'] ?? '#0B3D91';
-        $secondary = $options['secondary_color'] ?? '#E5A100';
+        $primary   = $options['primary_color'] ?? '#B0C426';
+        $secondary = $options['secondary_color'] ?? '#B0C426';
         $radius    = $options['border_radius'] ?? '8';
         $bg        = $options['background_color'] ?? '#F8F9FA';
         $text      = $options['text_color'] ?? '#1A1A2E';
@@ -162,7 +219,7 @@ class Plugin {
             --kivii-radius: ' . intval( $radius ) . 'px;
             --kivii-bg: ' . esc_attr( $bg ) . ';
             --kivii-text: ' . esc_attr( $text ) . ';
-            --kivii-success: #16A34A;
+            --kivii-success: #B0C426;
             --kivii-error: #DC2626;
             --kivii-warning: #F59E0B;
             --kivii-border: #E2E8F0;
@@ -201,8 +258,8 @@ class Plugin {
      */
     private function get_styling_options(): array {
         return get_option( 'kivii_styling', [
-            'primary_color'    => '#0B3D91',
-            'secondary_color'  => '#E5A100',
+            'primary_color'    => '#B0C426',
+            'secondary_color'  => '#B0C426',
             'border_radius'    => '8',
             'background_color' => '#F8F9FA',
             'text_color'       => '#1A1A2E',

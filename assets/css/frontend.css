@@ -13,15 +13,16 @@
 }
 
 .kivii-booking {
-    --kivii-primary: var(--kivii-color-primary, #0B3D91);
+    --kivii-primary: var(--kivii-color-primary, #B0C426);
     --kivii-primary-light: color-mix(in srgb, var(--kivii-primary) 15%, white);
     --kivii-primary-dark: color-mix(in srgb, var(--kivii-primary) 80%, black);
-    --kivii-secondary: var(--kivii-color-secondary, #E5A100);
+    --kivii-secondary: var(--kivii-color-secondary, #B0C426);
     --kivii-bg: var(--kivii-color-background, #F8F9FA);
     --kivii-text: var(--kivii-color-text, #1A1A2E);
+    --kivii-on-primary: var(--kivii-color-on-primary, #1A1A2E);
     --kivii-text-muted: #6B7280;
     --kivii-border: #E5E7EB;
-    --kivii-success: #059669;
+    --kivii-success: #B0C426;
     --kivii-error: #DC2626;
     --kivii-warning: #D97706;
     --kivii-radius: var(--kivii-border-radius, 8px);
@@ -99,13 +100,13 @@
 
 .kivii-progress__step.is-active .kivii-progress__dot {
     background: var(--kivii-primary);
-    color: white;
+    color: var(--kivii-on-primary);
     box-shadow: 0 0 0 4px var(--kivii-primary-light);
 }
 
 .kivii-progress__step.is-completed .kivii-progress__dot {
     background: var(--kivii-success);
-    color: white;
+    color: var(--kivii-on-primary);
 }
 
 .kivii-progress__label {
@@ -221,33 +222,42 @@
     align-items: stretch;
     border-radius: var(--kivii-radius);
     overflow: hidden;
-    border: 1.5px solid var(--kivii-border);
+    border: 2px solid #000000;
+    background: #FDCB00;
     transition: border-color var(--kivii-transition), box-shadow var(--kivii-transition);
 }
 
 .kivii-plate-input:focus-within {
-    border-color: var(--kivii-primary);
-    box-shadow: 0 0 0 3px var(--kivii-primary-light);
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(253, 203, 0, .35);
 }
 
 .kivii-plate-input__prefix {
     display: flex;
     align-items: center;
     padding: 0 .85rem;
-    background: #003DA5;
+    background: #00529B;
     color: white;
+    border-right: 2px solid #000000;
     font-weight: 700;
     font-size: .85rem;
     letter-spacing: .05em;
 }
 
 .kivii-plate-input__field {
+    background: #FDCB00;
+    color: #000000;
     border: none;
     border-radius: 0;
+    min-width: 0;
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: .1em;
     font-size: 1.1rem;
+}
+
+.kivii-plate-input__field::placeholder {
+    color: rgba(0, 0, 0, .75);
 }
 
 .kivii-plate-input__field:focus {
@@ -272,6 +282,7 @@
 .kivii-input-suffix .kivii-input {
     border: none;
     border-radius: 0;
+    min-width: 0;
 }
 
 .kivii-input-suffix .kivii-input:focus { box-shadow: none; }
@@ -296,6 +307,15 @@
 .kivii-form-group--half { flex: 1; }
 .kivii-form-group--third { flex: 0 0 35%; }
 .kivii-form-group--twothirds { flex: 1; }
+.kivii-form-row--vehicle {
+    align-items: flex-start;
+}
+.kivii-form-group--plate {
+    flex: 0 1 360px;
+}
+.kivii-form-group--mileage {
+    flex: 0 1 220px;
+}
 .kivii-form-group--street { flex: 2; }
 .kivii-form-group--housenr { flex: 0 0 80px; }
 .kivii-form-group--addition { flex: 0 0 70px; }
@@ -412,9 +432,9 @@
 
 .kivii-calendar__day.is-selected {
     background: var(--kivii-primary) !important;
-    color: white !important;
+    color: var(--kivii-on-primary) !important;
     font-weight: 700;
-    box-shadow: 0 2px 8px rgba(11,61,145,.3);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--kivii-primary) 30%, transparent);
 }
 
 .kivii-calendar__day.is-today {
@@ -520,7 +540,7 @@
 .kivii-timeslot.is-selected {
     border-color: var(--kivii-primary);
     background: var(--kivii-primary);
-    color: white;
+    color: var(--kivii-on-primary);
 }
 
 .kivii-timeslot.is-disabled {
@@ -542,6 +562,12 @@
     margin-bottom: .75rem;
     padding-bottom: .5rem;
     border-bottom: 2px solid var(--kivii-primary-light);
+}
+
+.kivii-service-category__desc {
+    margin: -.2rem 0 .85rem;
+    font-size: .85rem;
+    color: var(--kivii-text-muted);
 }
 
 .kivii-service-card {
@@ -583,7 +609,7 @@
 .kivii-service-card.is-selected .kivii-service-card__check {
     background: var(--kivii-primary);
     border-color: var(--kivii-primary);
-    color: white;
+    color: var(--kivii-on-primary);
 }
 
 .kivii-service-card__info {
@@ -626,7 +652,7 @@
     padding: .1rem .45rem;
     border-radius: 3px;
     background: var(--kivii-secondary);
-    color: white;
+    color: var(--kivii-on-primary);
     margin-left: .5rem;
 }
 
@@ -681,7 +707,7 @@
 
 .kivii-checkbox input:checked + .kivii-checkbox__mark::after {
     content: '✓';
-    color: white;
+    color: var(--kivii-on-primary);
     font-size: 12px;
     font-weight: 700;
 }
@@ -798,7 +824,7 @@
 
 .kivii-sidebar__count {
     background: var(--kivii-primary);
-    color: white;
+    color: var(--kivii-on-primary);
     font-size: .7rem;
     font-weight: 700;
     padding: .1rem .45rem;
@@ -827,8 +853,25 @@
 .kivii-sidebar__row {
     display: flex;
     justify-content: space-between;
+    gap: .75rem;
     padding: .2rem 0;
     font-size: .85rem;
+}
+
+.kivii-sidebar__row span,
+.kivii-sidebar__row strong {
+    min-width: 0;
+}
+
+.kivii-sidebar__row--service {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+}
+
+.kivii-sidebar__row--service strong {
+    white-space: nowrap;
+    text-align: right;
 }
 
 .kivii-sidebar__total {
@@ -857,7 +900,7 @@
 .kivii-confirmation__title {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--kivii-success);
+    color: var(--kivii-primary);
     margin-bottom: .5rem;
 }
 
@@ -932,7 +975,7 @@
         justify-content: space-between;
         padding: .85rem 1.25rem;
         background: var(--kivii-primary);
-        color: white;
+        color: var(--kivii-on-primary);
         font-weight: 600;
         cursor: pointer;
         border-radius: var(--kivii-radius) var(--kivii-radius) 0 0;
@@ -971,6 +1014,16 @@
     .kivii-form-row--address {
         flex-direction: row;
         flex-wrap: wrap;
+    }
+
+    .kivii-form-row--vehicle {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .kivii-form-group--plate,
+    .kivii-form-group--mileage {
+        flex: 1 1 100%;
     }
 
     .kivii-form-group--street {

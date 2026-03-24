@@ -146,13 +146,6 @@ $privacy_url = get_option( 'kivii_general', [] )['privacy_url'] ?? '#';
                     </div>
                 </div>
 
-                <!-- Contact overview -->
-                <div class="kivii-sidebar__section" id="kivii-overview-contact">
-                    <div class="kivii-sidebar__header">
-                        <span class="kivii-sidebar__icon">👤</span>
-                        <span class="kivii-sidebar__heading" data-text="overview_contact">Contactgegevens</span>
-                    </div>
-                </div>
             </div>
         </aside>
     </div>

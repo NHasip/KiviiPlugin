@@ -18,6 +18,48 @@
     flex-wrap: wrap;
 }
 
+.kivii-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 1.5rem;
+}
+
+.kivii-admin-stat {
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+}
+
+.kivii-admin-stat__label {
+    display: block;
+    font-size: 12px;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.kivii-admin-stat__value {
+    display: block;
+    margin-top: .35rem;
+    font-size: 1.4rem;
+    color: #1A1A2E;
+}
+
+.kivii-services-filters {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.kivii-services-filters input,
+.kivii-services-filters select {
+    min-width: 180px;
+}
+
 /* Modals */
 .kivii-modal {
     position: fixed;
@@ -51,8 +93,8 @@
     border-radius: 3px;
     font-size: 11px;
     font-weight: 600;
-    background: #059669;
-    color: white;
+    background: #B0C426;
+    color: #1A1A2E;
 }
 
 .kivii-badge-inactive {
@@ -73,8 +115,13 @@
 .kivii-category-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: .5rem;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: .75rem;
+}
+
+.kivii-category-header__main {
+    flex: 1;
 }
 
 .kivii-category-header h2 {
@@ -85,6 +132,42 @@
 .kivii-category-header small {
     color: #666;
     font-weight: 400;
+}
+
+.kivii-category-actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.kivii-category-count {
+    display: inline-block;
+    margin-left: .5rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #EEF2D3;
+    color: #526100;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.kivii-category-description {
+    margin: .45rem 0 0;
+    color: #6B7280;
+    max-width: 720px;
+}
+
+.kivii-service-summary {
+    margin-top: .35rem;
+    color: #374151;
+}
+
+.kivii-service-long {
+    margin-top: .35rem;
+    color: #6B7280;
+    font-size: 12px;
 }
 
 /* Status badges on bookings */
@@ -146,7 +229,7 @@
 .kivii-detail-card h2 {
     font-size: .95rem;
     margin-bottom: .75rem;
-    color: #0B3D91;
+    color: #B0C426;
 }
 
 .kivii-detail-full {
@@ -212,4 +295,14 @@
     font-size: 12px;
     background: #E5E7EB;
     border-radius: 3px;
+}
+
+@media (max-width: 782px) {
+    .kivii-category-header {
+        flex-direction: column;
+    }
+
+    .kivii-category-actions {
+        justify-content: flex-start;
+    }
 }

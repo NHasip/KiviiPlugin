@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="assets/css/frontend.css">
 <style>
 body{margin:0;padding:2rem;background:#F0F2F5;font-family:'Inter',sans-serif}
-.preview-bar{max-width:1040px;margin:0 auto 1.5rem;padding:1rem 1.5rem;background:#0B3D91;color:white;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.preview-bar{max-width:1040px;margin:0 auto 1.5rem;padding:1rem 1.5rem;background:#B0C426;color:#1A1A2E;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .preview-bar h1{font-size:1.1rem;margin:0}
 .preview-bar span{font-size:.8rem;opacity:.75}
-.preview-bar select{padding:.3rem .6rem;border-radius:5px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;font-size:.8rem}
+.preview-bar select{padding:.3rem .6rem;border-radius:5px;border:1px solid rgba(26,26,46,.15);background:rgba(255,255,255,.7);color:#1A1A2E;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -48,15 +48,17 @@ body{margin:0;padding:2rem;background:#F0F2F5;font-family:'Inter',sans-serif}
         <div class="kivii-step-content">
           <h2 class="kivii-step__title" data-text="step1_title">Uw autogegevens</h2>
           <p class="kivii-step__subtitle" data-text="step1_subtitle">Voer uw kenteken en kilometerstand in.</p>
-          <div class="kivii-form-group">
-            <label for="kivii-plate" class="kivii-label" data-text="license_plate_label">Kenteken</label>
-            <div class="kivii-plate-input"><span class="kivii-plate-input__prefix">NL</span><input type="text" id="kivii-plate" class="kivii-input kivii-plate-input__field" name="license_plate" placeholder="XX-999-X" maxlength="10"></div>
-            <span class="kivii-error" id="error-license_plate"></span>
-          </div>
-          <div class="kivii-form-group">
-            <label for="kivii-mileage" class="kivii-label" data-text="mileage_label">Km-stand</label>
-            <div class="kivii-input-suffix"><input type="number" id="kivii-mileage" class="kivii-input" name="mileage" placeholder="85000" min="0"><span class="kivii-input-suffix__text">KM</span></div>
-            <span class="kivii-error" id="error-mileage"></span>
+          <div class="kivii-form-row kivii-form-row--vehicle">
+            <div class="kivii-form-group kivii-form-group--plate">
+              <label for="kivii-plate" class="kivii-label" data-text="license_plate_label">Kenteken</label>
+              <div class="kivii-plate-input"><span class="kivii-plate-input__prefix">NL</span><input type="text" id="kivii-plate" class="kivii-input kivii-plate-input__field" name="license_plate" placeholder="1-ABC-23" maxlength="10"></div>
+              <span class="kivii-error" id="error-license_plate"></span>
+            </div>
+            <div class="kivii-form-group kivii-form-group--mileage">
+              <label for="kivii-mileage" class="kivii-label" data-text="mileage_label">Km-stand</label>
+              <div class="kivii-input-suffix"><input type="number" id="kivii-mileage" class="kivii-input" name="mileage" placeholder="85000" min="0"><span class="kivii-input-suffix__text">KM</span></div>
+              <span class="kivii-error" id="error-mileage"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -65,7 +67,7 @@ body{margin:0;padding:2rem;background:#F0F2F5;font-family:'Inter',sans-serif}
       <div class="kivii-step" data-step="2">
         <div class="kivii-step-content">
           <h2 class="kivii-step__title" data-text="step2_title">Selecteer uw werkzaamheden</h2>
-          <p class="kivii-step__subtitle" data-text="step2_subtitle">Kies de werkzaamheden die aan uw auto uitgevoerd moeten worden.</p>
+          <p class="kivii-step__subtitle" data-text="step2_subtitle">Kies werkzaamheden die aan uw auto moeten gebeuren.</p>
           <div id="kivii-services-container"></div>
           <span class="kivii-error" id="error-services"></span>
           <div class="kivii-totals">
@@ -141,7 +143,7 @@ body{margin:0;padding:2rem;background:#F0F2F5;font-family:'Inter',sans-serif}
       <!-- Confirmation -->
       <div class="kivii-step" data-step="confirm">
         <div class="kivii-step-content kivii-confirmation">
-          <div class="kivii-confirmation__icon"><svg width="80" height="80" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="#059669" stroke-width="3" fill="none"/><path d="M24 40L35 51L56 30" stroke="#059669" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="kivii-confirmation__icon"><svg width="80" height="80" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="#B0C426" stroke-width="3" fill="none"/><path d="M24 40L35 51L56 30" stroke="#B0C426" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <h2 class="kivii-confirmation__title">Afspraak bevestigd!</h2>
           <p class="kivii-confirmation__message">Uw afspraak is succesvol ingepland. U ontvangt een bevestiging per e-mail.</p>
           <div class="kivii-confirmation__reference"><span>Referentienummer</span><strong id="kivii-booking-ref">—</strong></div>
@@ -174,7 +176,6 @@ body{margin:0;padding:2rem;background:#F0F2F5;font-family:'Inter',sans-serif}
           <div class="kivii-sidebar__header"><span class="kivii-sidebar__icon">📅</span><span class="kivii-sidebar__heading">Tijdstip</span></div>
           <div class="kivii-sidebar__body"><p class="kivii-sidebar__placeholder">Selecteer een beschikbare dag.</p><div class="kivii-sidebar__data" style="display:none"><div class="kivii-sidebar__row"><span>Datum</span><strong id="overview-date">—</strong></div><div class="kivii-sidebar__row"><span>Tijd</span><strong id="overview-time">—</strong></div></div></div>
         </div>
-        <div class="kivii-sidebar__section" id="kivii-overview-contact"><div class="kivii-sidebar__header"><span class="kivii-sidebar__icon">👤</span><span class="kivii-sidebar__heading">Contactgegevens</span></div></div>
       </div>
     </aside>
   </div>

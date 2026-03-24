@@ -11,22 +11,51 @@
     // ── Mock Services Data ─────────────────
     const mockServices = [
         {
-            name_nl: 'Onderhoud', name_en: 'Maintenance', services: [
-                { id: 1, title_nl: 'Kleine beurt', title_en: 'Basic service', description_nl: 'Olie verversen, filters, vloeistoffen', description_en: 'Oil change, filters, fluids', price: 149.95, duration_minutes: 45, is_addon: false },
-                { id: 2, title_nl: 'Grote beurt', title_en: 'Full service', description_nl: 'Complete controle + onderhoud', description_en: 'Full inspection + maintenance', price: 289.95, duration_minutes: 120, is_addon: false },
-                { id: 3, title_nl: 'Airco controle', title_en: 'AC check', description_nl: 'Koelmiddel bijvullen + lektest', description_en: 'Coolant refill + leak test', price: 79.50, duration_minutes: 30, is_addon: true },
+            name_nl: 'Onderhoud',
+            name_en: 'Maintenance',
+            description_nl: 'Jaarlijkse onderhoudsbeurt volgens fabrieksspecificaties.',
+            description_en: 'Annual maintenance according to manufacturer specifications.',
+            services: [
+                { id: 1, title_nl: 'Kleine beurt', description_nl: 'Basisonderhoud voor olie, filters en controlepunten.', price: 149.95, price_label_nl: '', duration_minutes: 90, is_addon: false },
+                { id: 2, title_nl: 'Grote beurt', description_nl: 'Uitgebreide onderhoudsbeurt met extra controlepunten.', price: 289.95, price_label_nl: '', duration_minutes: 150, is_addon: false },
+                { id: 3, title_nl: 'Elektrische voertuigen onderhoudsservice', description_nl: 'Aanbevolen onderhoudsservice volgens fabrieksopgave.', price: 169.95, price_label_nl: '', duration_minutes: 90, is_addon: false },
+                { id: 4, title_nl: 'Geen onderhoud nodig', description_nl: 'Selecteer alleen aanvullende werkzaamheden indien gewenst.', price: 0, price_label_nl: '', duration_minutes: 5, is_addon: false },
             ]
         },
         {
-            name_nl: 'Banden', name_en: 'Tires', services: [
-                { id: 4, title_nl: 'Banden wisselen (4x)', title_en: 'Tire change (4x)', description_nl: 'Seizoensbanden wisselen', description_en: 'Seasonal tire swap', price: 49.95, duration_minutes: 30, is_addon: false },
-                { id: 5, title_nl: 'Uitlijnen', title_en: 'Wheel alignment', description_nl: '4-wiel uitlijning', description_en: '4-wheel alignment', price: 69.95, duration_minutes: 45, is_addon: true },
-            ]
-        },
-        {
-            name_nl: 'APK & Keuring', name_en: 'MOT & Inspection', services: [
-                { id: 6, title_nl: 'APK Keuring', title_en: 'MOT Test', description_nl: 'Wettelijk verplichte keuring', description_en: 'Mandatory vehicle inspection', price: 34.95, duration_minutes: 30, is_addon: false },
-                { id: 7, title_nl: 'Remmen controle', title_en: 'Brake inspection', description_nl: 'Schijven, blokken en vloeistof', description_en: 'Discs, pads and fluid', price: 29.95, duration_minutes: 20, is_addon: true },
+            name_nl: 'Aanvullende werkzaamheden',
+            name_en: 'Additional services',
+            description_nl: 'Kies werkzaamheden die aan uw auto moeten gebeuren.',
+            description_en: 'Choose any additional services needed for your car.',
+            services: [
+                { id: 5, title_nl: 'APK keuring (Benzine, LPG en Elektrisch)', description_nl: 'Benzine, LPG en Elek APK keuring.', price: 54.95, price_label_nl: '', duration_minutes: 45, is_addon: true },
+                { id: 6, title_nl: 'Diesel voertuigen APK keuring', description_nl: 'Inclusief deeltjesteller test, verplicht vanaf 01-2023.', price: 72.95, price_label_nl: '', duration_minutes: 60, is_addon: true },
+                { id: 7, title_nl: 'Oldtimer APK', description_nl: 'APK-keuring voor oldtimers.', price: 74.00, price_label_nl: '', duration_minutes: 60, is_addon: true },
+                { id: 8, title_nl: 'Distributieriem vervangen', description_nl: 'Prijs en duur op aanvraag afhankelijk van motortype.', price: 0, price_label_nl: '', duration_minutes: 240, is_addon: true },
+                { id: 9, title_nl: 'Remmen rondom schoonmaken en gangbaar maken', description_nl: '', price: 124.95, price_label_nl: '', duration_minutes: 90, is_addon: true },
+                { id: 10, title_nl: 'Winter of zomer bandenset monteren', description_nl: '', price: 44.95, price_label_nl: '', duration_minutes: 45, is_addon: true },
+                { id: 11, title_nl: 'Winter of zomerbanden monteren (zonder velg)', description_nl: '', price: 89.00, price_label_nl: 'Vanaf € 89,00', duration_minutes: 60, is_addon: true },
+                { id: 12, title_nl: 'Tesla! Banden rouleren', description_nl: '', price: 44.95, price_label_nl: '', duration_minutes: 30, is_addon: true },
+                { id: 13, title_nl: 'Periodiek remvloeistof verversen', description_nl: 'Elke 2 jaar aanbevolen.', price: 45.95, price_label_nl: '', duration_minutes: 45, is_addon: true },
+                { id: 14, title_nl: 'Airco onderhoudsbeurt', description_nl: 'Elke 2 jaar, meerprijs bij meer dan 200 gram koudemiddel.', price: 89.00, price_label_nl: 'Vanaf € 89,00', duration_minutes: 60, is_addon: true },
+                { id: 15, title_nl: 'Elektrische en hybride airco onderhoudsbeurt', description_nl: 'Elke 2 jaar, meerprijs bij meer dan 200 gram koudemiddel.', price: 135.00, price_label_nl: '', duration_minutes: 75, is_addon: true },
+                { id: 16, title_nl: 'Airco reinigen', description_nl: '', price: 34.95, price_label_nl: '', duration_minutes: 30, is_addon: true },
+                { id: 17, title_nl: 'Tesla PTC heater vervangen (Model 3/Y)', description_nl: 'PTC heater Tesla Model 3/Y vervangen.', price: 1150.00, price_label_nl: '', duration_minutes: 300, is_addon: true },
+                { id: 18, title_nl: 'Tesla PTC heater vervangen (Model S/X)', description_nl: 'PTC heater Tesla Model S/X vervangen.', price: 1640.00, price_label_nl: '', duration_minutes: 420, is_addon: true },
+                { id: 19, title_nl: 'Tesla PTC heater S/X zekering Junction Box vervangen', description_nl: 'Zekering Junction Box (DC/DC-converter) vervangen en S/X PTC heater vervangen.', price: 668.00, price_label_nl: '', duration_minutes: 240, is_addon: true },
+                { id: 20, title_nl: 'Tesla accudiagnose / accu onbalans', description_nl: 'Diagnose van Tesla tractiebatterij en eventuele onbalans.', price: 0, price_label_nl: '', duration_minutes: 90, is_addon: true },
+                { id: 21, title_nl: 'Tesla! Vervangen droogmiddelzak Tesla 3/Y i.c.m. aircoservice beurt', description_nl: '', price: 314.00, price_label_nl: 'Vanaf € 314,00', duration_minutes: 180, is_addon: true },
+                { id: 22, title_nl: 'Tesla vervangen droogmiddelzak Tesla S/X i.c.m. aircoservice beurt', description_nl: '', price: 204.00, price_label_nl: 'Vanaf € 204,00', duration_minutes: 150, is_addon: true },
+                { id: 23, title_nl: 'Tip! Flacon motorolie bijleveren (1 liter)', description_nl: '', price: 16.50, price_label_nl: 'Vanaf € 16,50', duration_minutes: 5, is_addon: true },
+                { id: 24, title_nl: 'Ruitenwisserbladen voorzijde vervangen', description_nl: 'Prijs afhankelijk van voertuigtype en merk.', price: 0, price_label_nl: '', duration_minutes: 15, is_addon: true },
+                { id: 25, title_nl: 'Ruitenwisserblad achterzijde vervangen', description_nl: 'Prijs afhankelijk van voertuigtype en merk.', price: 0, price_label_nl: '', duration_minutes: 10, is_addon: true },
+                { id: 26, title_nl: 'Wintercheck', description_nl: '', price: 19.95, price_label_nl: '', duration_minutes: 20, is_addon: true },
+                { id: 27, title_nl: 'Zomercheck', description_nl: '', price: 19.95, price_label_nl: '', duration_minutes: 20, is_addon: true },
+                { id: 28, title_nl: 'Tip! Inlaatsysteem laten reinigen', description_nl: 'Kan een brandstofbesparing tussen 10% en 30% opleveren.', price: 389.00, price_label_nl: 'Vanaf € 389,00', duration_minutes: 180, is_addon: true },
+                { id: 29, title_nl: 'Tip! Hoog olieverbruik? Intensieve oliesysteem reiniging en bescherming', description_nl: 'Alleen i.c.m. onderhoudsbeurt.', price: 114.95, price_label_nl: 'Vanaf € 114,95', duration_minutes: 90, is_addon: true },
+                { id: 30, title_nl: 'Tip! Oliesysteem reiniging (FLUSH) en toevoeging aan de motorolie', description_nl: 'Voor extra bescherming, alleen i.c.m. onderhoudsbeurt.', price: 49.95, price_label_nl: '', duration_minutes: 30, is_addon: true },
+                { id: 31, title_nl: 'Controle "einde contract"', description_nl: 'Controle voor inleveren of einde leasecontract.', price: 0, price_label_nl: '', duration_minutes: 45, is_addon: true },
+                { id: 32, title_nl: 'Andere werkzaamheden welke niet vermeld staan', description_nl: 'Beschrijf andere werkzaamheden in de opmerkingen.', price: 0, price_label_nl: '', duration_minutes: 30, is_addon: true },
             ]
         },
     ];
@@ -46,6 +75,31 @@
     const lk = (obj, key) => obj[key + '_' + lang()] || obj[key + '_nl'] || '';
     const fp = p => '€ ' + parseFloat(p).toFixed(2).replace('.', ',');
     const esc = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+
+    const findService = id => {
+        for (const category of mockServices) {
+            const match = (category.services || []).find(service => service.id === id);
+            if (match) return match;
+        }
+        return null;
+    };
+
+    const servicePrice = service => {
+        const label = lk(service, 'price_label');
+        if (label) return label;
+        if (parseFloat(service.price) > 0) return fp(service.price);
+        return lang() === 'nl' ? 'Op aanvraag' : 'On request';
+    };
+
+    const serviceDuration = service => {
+        const minutes = parseInt(service.duration_minutes || 0, 10);
+        return minutes > 0 ? `${minutes} min` : (lang() === 'nl' ? 'In overleg' : 'To be agreed');
+    };
+
+    const isSingleSelectCategory = category => {
+        const categoryName = lk(category, 'name').trim().toLowerCase();
+        return categoryName === 'onderhoud' || categoryName === 'maintenance';
+    };
 
     function fmtDate(ds) {
         const d = new Date(ds + 'T00:00:00');
@@ -128,13 +182,17 @@
         const c = document.getElementById('kivii-services-container');
         let html = '';
         for (const cat of mockServices) {
-            html += `<div class="kivii-service-category"><h3 class="kivii-service-category__title">${esc(lk(cat, 'name'))}</h3>`;
+            html += `<div class="kivii-service-category" data-selection-mode="${isSingleSelectCategory(cat) ? 'single' : 'multiple'}"><h3 class="kivii-service-category__title">${esc(lk(cat, 'name'))}</h3>`;
+            if (lk(cat, 'description')) {
+                html += `<p class="kivii-service-category__desc">${esc(lk(cat, 'description'))}</p>`;
+            }
             for (const s of cat.services) {
-                const addon = s.is_addon ? '<span class="kivii-service-card__addon-tag">Add-on</span>' : '';
-                html += `<div class="kivii-service-card" data-id="${s.id}" data-price="${s.price}" data-duration="${s.duration_minutes}">
-                    <div class="kivii-service-card__check"></div>
-                    <div class="kivii-service-card__info"><div class="kivii-service-card__title">${esc(lk(s, 'title'))}${addon}</div><div class="kivii-service-card__desc">${esc(lk(s, 'description'))}</div></div>
-                    <div class="kivii-service-card__meta"><div class="kivii-service-card__price">${fp(s.price)}</div><div class="kivii-service-card__duration">${s.duration_minutes} min</div></div>
+                const isSelected = state.data.selected_services.includes(s.id);
+                const desc = lk(s, 'description');
+                html += `<div class="kivii-service-card${isSelected ? ' is-selected' : ''}" data-id="${s.id}">
+                    <div class="kivii-service-card__check">${isSelected ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 3.5L5.5 10.5L2.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}</div>
+                    <div class="kivii-service-card__info"><div class="kivii-service-card__title">${esc(lk(s, 'title'))}</div>${desc ? `<div class="kivii-service-card__desc">${esc(desc)}</div>` : ''}</div>
+                    <div class="kivii-service-card__meta"><div class="kivii-service-card__price">${esc(servicePrice(s))}</div><div class="kivii-service-card__duration">${esc(serviceDuration(s))}</div></div>
                 </div>`;
             }
             html += '</div>';
@@ -144,19 +202,44 @@
     }
 
     function toggleSvc(card) {
+        const category = card.closest('.kivii-service-category');
+        const isSingleSelect = category?.dataset.selectionMode === 'single';
+        const wasSelected = card.classList.contains('is-selected');
+
+        if (isSingleSelect && !wasSelected) {
+            category.querySelectorAll('.kivii-service-card.is-selected').forEach(otherCard => {
+                otherCard.classList.remove('is-selected');
+                const otherCheck = otherCard.querySelector('.kivii-service-card__check');
+                if (otherCheck) {
+                    otherCheck.innerHTML = '';
+                }
+            });
+        }
+
         card.classList.toggle('is-selected');
         const chk = card.querySelector('.kivii-service-card__check');
-        chk.innerHTML = card.classList.contains('is-selected') ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 3.5L5.5 10.5L2.5 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
+        chk.innerHTML = card.classList.contains('is-selected') ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 3.5L5.5 10.5L2.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
         collectSelected(); updateTotals(); updateSidebar();
     }
 
     function collectSelected() { state.data.selected_services = [...document.querySelectorAll('.kivii-service-card.is-selected')].map(c => parseInt(c.dataset.id)); }
 
     function getSelDetails() {
-        return [...document.querySelectorAll('.kivii-service-card.is-selected')].map(c => ({
-            id: parseInt(c.dataset.id), price: parseFloat(c.dataset.price), duration: parseInt(c.dataset.duration),
-            title: c.querySelector('.kivii-service-card__title')?.textContent?.replace('Add-on', '').trim() || ''
-        }));
+        return state.data.selected_services
+            .map(findService)
+            .filter(Boolean)
+            .map(service => {
+                const label = lk(service, 'price_label');
+                return {
+                    id: service.id,
+                    price: parseFloat(service.price || 0),
+                    duration: parseInt(service.duration_minutes || 0, 10),
+                    title: lk(service, 'title'),
+                    priceDisplay: servicePrice(service),
+                    hasFixedPrice: parseFloat(service.price || 0) > 0,
+                    hasFromPrice: label.toLowerCase().startsWith('vanaf') || label.toLowerCase().startsWith('from')
+                };
+            });
     }
 
     function updateTotals() {
@@ -165,8 +248,18 @@
         const td = sel.reduce((s, i) => s + i.duration, 0);
         const pe = document.getElementById('kivii-total-price');
         const de = document.getElementById('kivii-total-duration');
-        if (pe) pe.textContent = fp(tp);
-        if (de) de.textContent = td + ' min';
+        if (pe) {
+            if (sel.length === 0) {
+                pe.textContent = fp(0);
+            } else if (sel.some(item => !item.hasFixedPrice && !item.hasFromPrice)) {
+                pe.textContent = lang() === 'nl' ? 'Op aanvraag' : 'On request';
+            } else if (sel.some(item => item.hasFromPrice)) {
+                pe.textContent = `${lang() === 'nl' ? 'Vanaf' : 'From'} ${fp(tp)}`;
+            } else {
+                pe.textContent = fp(tp);
+            }
+        }
+        if (de) de.textContent = td > 0 ? `${td} min` : (lang() === 'nl' ? 'In overleg' : 'To be agreed');
     }
 
     // ── Step 3: Calendar ───────────────────
@@ -252,9 +345,21 @@
 
         const sel = getSelDetails();
         const sl = document.getElementById('overview-services-list'), sc = document.getElementById('overview-service-count'), st = document.getElementById('overview-totals');
-        if (sl) sl.innerHTML = sel.map(s => `<div class="kivii-sidebar__row"><span>${esc(s.title)}</span><strong>${fp(s.price)}</strong></div>`).join('');
+        if (sl) sl.innerHTML = sel.map(s => `<div class="kivii-sidebar__row kivii-sidebar__row--service"><span>${esc(s.title)}</span><strong>${esc(s.priceDisplay)}</strong></div>`).join('');
         if (sc) { sc.textContent = sel.length; sc.style.display = sel.length > 0 ? '' : 'none'; }
-        if (st && sel.length > 0) { st.style.display = ''; document.getElementById('overview-total-price').textContent = fp(sel.reduce((s, i) => s + i.price, 0)); document.getElementById('overview-total-duration').textContent = sel.reduce((s, i) => s + i.duration, 0) + ' min'; } else if (st) st.style.display = 'none';
+        if (st && sel.length > 0) {
+            st.style.display = '';
+            document.getElementById('overview-total-price').textContent =
+                sel.some(item => !item.hasFixedPrice && !item.hasFromPrice)
+                    ? (lang() === 'nl' ? 'Op aanvraag' : 'On request')
+                    : sel.some(item => item.hasFromPrice)
+                        ? `${lang() === 'nl' ? 'Vanaf' : 'From'} ${fp(sel.reduce((s, i) => s + i.price, 0))}`
+                        : fp(sel.reduce((s, i) => s + i.price, 0));
+            document.getElementById('overview-total-duration').textContent =
+                sel.reduce((s, i) => s + i.duration, 0) > 0
+                    ? sel.reduce((s, i) => s + i.duration, 0) + ' min'
+                    : (lang() === 'nl' ? 'In overleg' : 'To be agreed');
+        } else if (st) st.style.display = 'none';
 
         const de = document.getElementById('overview-date'), te = document.getElementById('overview-time');
         const td = app.querySelector('#kivii-overview-timeslot .kivii-sidebar__data'), tp = app.querySelector('#kivii-overview-timeslot .kivii-sidebar__placeholder');

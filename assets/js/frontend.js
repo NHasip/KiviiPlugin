@@ -42,7 +42,7 @@
     const cfg = window.kiviiData || {};
     const apiBase = cfg.restUrl || '/wp-json/kiviiweb/v1';
     const nonce = cfg.nonce || '';
-    const lang = cfg.language || 'nl';
+    const lang = cfg.lang || cfg.language || 'nl';
     const texts = cfg.texts || {};
     const dropOffTimes = cfg.dropOffTimes || ['09:00','13:00'];
 
@@ -74,6 +74,45 @@
     // ── Helper: Format ─────────────────────
     function formatPrice(price) {
         return '€ ' + parseFloat(price).toFixed(2).replace('.', ',');
+    }
+
+    function serviceField(item, key) {
+        return item[`${key}_${lang}`] || item[`${key}_nl`] || '';
+    }
+
+    function getServiceById(id) {
+        for (const category of state.services) {
+            const match = (category.services || []).find(service => service.id === id);
+            if (match) {
+                return match;
+            }
+        }
+
+        return null;
+    }
+
+    function getServicePriceDisplay(service) {
+        const priceLabel = serviceField(service, 'price_label');
+
+        if (priceLabel) {
+            return priceLabel;
+        }
+
+        if (parseFloat(service.price) > 0) {
+            return formatPrice(service.price);
+        }
+
+        return t('price_on_request', 'Op aanvraag');
+    }
+
+    function getServiceDurationLabel(service) {
+        const minutes = parseInt(service.duration_minutes, 10) || 0;
+        return minutes > 0 ? `${minutes} min` : t('duration_on_request', 'In overleg');
+    }
+
+    function isSingleSelectCategory(category) {
+        const categoryName = serviceField(category, 'name').trim().toLowerCase();
+        return categoryName === 'onderhoud' || categoryName === 'maintenance';
     }
 
     function formatDate(dateStr) {
@@ -231,31 +270,38 @@
 
     function renderServices() {
         const container = document.getElementById('kivii-services-container');
-        const langKey = lang === 'en' ? 'en' : 'nl';
         let html = '';
 
         for (const cat of state.services) {
-            html += `<div class="kivii-service-category">`;
-            html += `<h3 class="kivii-service-category__title">${escHtml(cat['name_' + langKey] || cat.name_nl)}</h3>`;
+            const categoryTitle = serviceField(cat, 'name');
+            const categoryDescription = serviceField(cat, 'description');
+            const singleSelect = isSingleSelectCategory(cat);
+
+            html += `<div class="kivii-service-category" data-selection-mode="${singleSelect ? 'single' : 'multiple'}">`;
+            html += `<h3 class="kivii-service-category__title">${escHtml(categoryTitle)}</h3>`;
+            if (categoryDescription) {
+                html += `<p class="kivii-service-category__desc">${escHtml(categoryDescription)}</p>`;
+            }
 
             for (const svc of (cat.services || [])) {
                 const isSelected = state.data.selected_services.includes(svc.id);
-                const title = svc['title_' + langKey] || svc.title_nl;
-                const desc = svc['description_' + langKey] || svc.description_nl || '';
-                const addonTag = svc.is_addon ? `<span class="kivii-service-card__addon-tag">Add-on</span>` : '';
+                const title = serviceField(svc, 'title');
+                const desc = serviceField(svc, 'description');
+                const priceDisplay = getServicePriceDisplay(svc);
+                const durationDisplay = getServiceDurationLabel(svc);
 
                 html += `
-                <div class="kivii-service-card${isSelected ? ' is-selected' : ''}" data-id="${svc.id}" data-price="${svc.price}" data-duration="${svc.duration_minutes}">
+                <div class="kivii-service-card${isSelected ? ' is-selected' : ''}" data-id="${svc.id}">
                     <div class="kivii-service-card__check">
                         ${isSelected ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11.5 3.5L5.5 10.5L2.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
                     </div>
                     <div class="kivii-service-card__info">
-                        <div class="kivii-service-card__title">${escHtml(title)}${addonTag}</div>
+                        <div class="kivii-service-card__title">${escHtml(title)}</div>
                         ${desc ? `<div class="kivii-service-card__desc">${escHtml(desc)}</div>` : ''}
                     </div>
                     <div class="kivii-service-card__meta">
-                        <div class="kivii-service-card__price">${formatPrice(svc.price)}</div>
-                        <div class="kivii-service-card__duration">${svc.duration_minutes} min</div>
+                        <div class="kivii-service-card__price">${escHtml(priceDisplay)}</div>
+                        <div class="kivii-service-card__duration">${escHtml(durationDisplay)}</div>
                     </div>
                 </div>`;
             }
@@ -273,7 +319,20 @@
     }
 
     function toggleService(card) {
-        const id = parseInt(card.dataset.id);
+        const category = card.closest('.kivii-service-category');
+        const isSingleSelect = category?.dataset.selectionMode === 'single';
+        const wasSelected = card.classList.contains('is-selected');
+
+        if (isSingleSelect && !wasSelected) {
+            category.querySelectorAll('.kivii-service-card.is-selected').forEach(otherCard => {
+                otherCard.classList.remove('is-selected');
+                const otherCheck = otherCard.querySelector('.kivii-service-card__check');
+                if (otherCheck) {
+                    otherCheck.innerHTML = '';
+                }
+            });
+        }
+
         card.classList.toggle('is-selected');
         const check = card.querySelector('.kivii-service-card__check');
         if (card.classList.contains('is-selected')) {
@@ -294,17 +353,22 @@
     }
 
     function getSelectedDetails() {
-        const details = [];
-        document.querySelectorAll('.kivii-service-card.is-selected').forEach(c => {
-            const title = c.querySelector('.kivii-service-card__title')?.textContent?.replace('Add-on','').trim() || '';
-            details.push({
-                id: parseInt(c.dataset.id),
-                price: parseFloat(c.dataset.price),
-                duration: parseInt(c.dataset.duration),
-                title: title,
+        return state.data.selected_services
+            .map(id => getServiceById(id))
+            .filter(Boolean)
+            .map(service => {
+                const priceLabel = serviceField(service, 'price_label');
+
+                return {
+                    id: parseInt(service.id, 10),
+                    price: parseFloat(service.price || 0),
+                    duration: parseInt(service.duration_minutes || 0, 10),
+                    title: serviceField(service, 'title'),
+                    priceDisplay: getServicePriceDisplay(service),
+                    hasFixedPrice: parseFloat(service.price || 0) > 0,
+                    hasFromPrice: priceLabel.toLowerCase().startsWith('vanaf') || priceLabel.toLowerCase().startsWith('from'),
+                };
             });
-        });
-        return details;
     }
 
     function updateTotals() {
@@ -314,8 +378,21 @@
 
         const priceEl = document.getElementById('kivii-total-price');
         const durEl = document.getElementById('kivii-total-duration');
-        if (priceEl) priceEl.textContent = formatPrice(totalPrice);
-        if (durEl) durEl.textContent = totalDuration + ' min';
+        if (priceEl) {
+            if (selected.length === 0) {
+                priceEl.textContent = formatPrice(0);
+            } else if (selected.some(item => !item.hasFixedPrice && !item.hasFromPrice)) {
+                priceEl.textContent = t('price_on_request', 'Op aanvraag');
+            } else if (selected.some(item => item.hasFromPrice)) {
+                priceEl.textContent = `${lang === 'en' ? 'From' : 'Vanaf'} ${formatPrice(totalPrice)}`;
+            } else {
+                priceEl.textContent = formatPrice(totalPrice);
+            }
+        }
+
+        if (durEl) {
+            durEl.textContent = totalDuration > 0 ? `${totalDuration} min` : t('duration_on_request', 'In overleg');
+        }
     }
 
     // ── Step 3: Calendar ───────────────────
@@ -518,7 +595,7 @@
         if (listEl) {
             if (selected.length > 0) {
                 listEl.innerHTML = selected.map(s =>
-                    `<div class="kivii-sidebar__row"><span>${escHtml(s.title)}</span><strong>${formatPrice(s.price)}</strong></div>`
+                    `<div class="kivii-sidebar__row kivii-sidebar__row--service"><span>${escHtml(s.title)}</span><strong>${escHtml(s.priceDisplay)}</strong></div>`
                 ).join('');
             } else {
                 listEl.innerHTML = '';
@@ -533,8 +610,13 @@
         if (totalsEl) {
             const total = selected.reduce((s, i) => s + i.price, 0);
             const dur = selected.reduce((s, i) => s + i.duration, 0);
-            document.getElementById('overview-total-price').textContent = formatPrice(total);
-            document.getElementById('overview-total-duration').textContent = dur + ' min';
+            document.getElementById('overview-total-price').textContent =
+                selected.some(item => !item.hasFixedPrice && !item.hasFromPrice)
+                    ? t('price_on_request', 'Op aanvraag')
+                    : selected.some(item => item.hasFromPrice)
+                        ? `${lang === 'en' ? 'From' : 'Vanaf'} ${formatPrice(total)}`
+                        : formatPrice(total);
+            document.getElementById('overview-total-duration').textContent = dur > 0 ? `${dur} min` : t('duration_on_request', 'In overleg');
             totalsEl.style.display = selected.length > 0 ? '' : 'none';
         }
 

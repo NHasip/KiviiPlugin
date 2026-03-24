@@ -19,6 +19,9 @@ class Activator {
         // Set default options if not existing
         self::set_defaults();
 
+        // Seed the default services catalog on fresh installs.
+        ( new Database\ServiceRepository() )->ensure_default_catalog();
+
         // Schedule cron
         if ( ! wp_next_scheduled( 'kivii_daily_cleanup' ) ) {
             wp_schedule_event( time(), 'daily', 'kivii_daily_cleanup' );
@@ -37,8 +40,8 @@ class Activator {
                 'retention_days' => 365,
             ],
             'kivii_styling' => [
-                'primary_color'    => '#0B3D91',
-                'secondary_color'  => '#E5A100',
+                'primary_color'    => '#B0C426',
+                'secondary_color'  => '#B0C426',
                 'border_radius'    => '8',
                 'background_color' => '#F8F9FA',
                 'text_color'       => '#1A1A2E',

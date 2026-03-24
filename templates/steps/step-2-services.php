@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <div class="kivii-step-content">
     <h2 class="kivii-step__title" data-text="step2_title">Selecteer uw werkzaamheden</h2>
-    <p class="kivii-step__subtitle" data-text="step2_subtitle">Kies de werkzaamheden die aan uw auto uitgevoerd moeten worden.</p>
+    <p class="kivii-step__subtitle" data-text="step2_subtitle">Kies werkzaamheden die aan uw auto moeten gebeuren.</p>
 
     <div id="kivii-services-container">
         <!-- Dynamically rendered by JS from kiviiData.services -->
