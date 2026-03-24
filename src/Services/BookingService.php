@@ -21,6 +21,8 @@ class BookingService {
     private LogRepository $logger;
     private AvailabilityProviderInterface $availability;
     private BookingWriterInterface $writer;
+    private bool $use_mock = false;
+    private string $cache_namespace = 'live';
 
     public function __construct() {
         $this->bookings = new BookingRepository();
@@ -30,6 +32,10 @@ class BookingService {
         // Decide which adapter to use
         $api_options = get_option( 'kivii_api', [] );
         $use_mock    = empty( $api_options['base_url'] ) || ! empty( $api_options['use_mock'] );
+        $this->use_mock = $use_mock;
+        $this->cache_namespace = $use_mock
+            ? 'mock'
+            : 'live_' . md5( (string) ( $api_options['base_url'] ?? '' ) );
 
         if ( $use_mock ) {
             $mock = new MockApiAdapter();
@@ -45,7 +51,7 @@ class BookingService {
      * Get available days for calendar.
      */
     public function get_available_days( int $month, int $year, int $duration ): array {
-        $cache_key = "kivii_days_{$month}_{$year}_{$duration}";
+        $cache_key = "kivii_days_{$this->cache_namespace}_{$month}_{$year}_{$duration}";
         $cached    = get_transient( $cache_key );
 
         if ( $cached !== false ) {
@@ -64,7 +70,7 @@ class BookingService {
      * Get available time slots for a date.
      */
     public function get_available_slots( string $date, int $duration ): array {
-        $cache_key = "kivii_slots_{$date}_{$duration}";
+        $cache_key = "kivii_slots_{$this->cache_namespace}_{$date}_{$duration}";
         $cached    = get_transient( $cache_key );
 
         if ( $cached !== false ) {

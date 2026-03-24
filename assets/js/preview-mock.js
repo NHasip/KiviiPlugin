@@ -66,7 +66,7 @@
     // ── State ──────────────────────────────
     const state = {
         step: 1, maxSteps: 4,
-        data: { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false },
+        data: { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, drop_off_answered: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false },
         calendar: { month: new Date().getMonth() + 1, year: new Date().getFullYear() },
     };
 
@@ -127,7 +127,7 @@
         submitBtn.style.display = n === state.maxSteps ? '' : 'none';
         navEl.style.display = n > state.maxSteps ? 'none' : '';
         if (n === 2) renderServices();
-        if (n === 3) renderCalendar();
+        if (n === 3) initializeStep3();
         updateSidebar();
         app.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -155,9 +155,13 @@
             if (state.data.selected_services.length === 0) { showErr('services', 'Selecteer minimaal één werkzaamheid.'); ok = false; }
         }
         if (n === 3) {
-            if (!state.data.appointment_date) { showErr('appointment_date', 'Selecteer een datum.'); ok = false; }
-            if (!state.data.is_drop_off && !state.data.appointment_time) { showErr('appointment_time', 'Selecteer een tijdstip.'); ok = false; }
-            if (state.data.is_drop_off && !state.data.drop_off_time) { showErr('drop_off_time', 'Selecteer een brengmoment.'); ok = false; }
+            if (!state.data.drop_off_answered) {
+                showErr('is_drop_off', 'Maak eerst een keuze of u de auto achterlaat.'); ok = false;
+            } else {
+                if (!state.data.appointment_date) { showErr('appointment_date', 'Selecteer een datum.'); ok = false; }
+                if (!state.data.is_drop_off && !state.data.appointment_time) { showErr('appointment_time', 'Selecteer een tijdstip.'); ok = false; }
+                if (state.data.is_drop_off && !state.data.drop_off_time) { showErr('drop_off_time', 'Selecteer een brengmoment.'); ok = false; }
+            }
         }
         if (n === 4) {
             const flds = { first_name: 'kivii-firstname', last_name: 'kivii-lastname', email: 'kivii-email', phone: 'kivii-phone', street: 'kivii-street', house_number: 'kivii-housenumber', postal_code: 'kivii-postalcode', city: 'kivii-city' };
@@ -263,6 +267,22 @@
     }
 
     // ── Step 3: Calendar ───────────────────
+    function setStep3Visibility(showCalendar) {
+        const calendarEl = document.getElementById('kivii-calendar');
+        const slotsEl = document.getElementById('kivii-timeslots');
+        const dropOffEl = document.getElementById('kivii-dropoff-times');
+        if (calendarEl) calendarEl.style.display = showCalendar ? '' : 'none';
+        if (!showCalendar) {
+            if (slotsEl) slotsEl.style.display = 'none';
+            if (dropOffEl) dropOffEl.style.display = 'none';
+        }
+    }
+
+    function initializeStep3() {
+        setStep3Visibility(state.data.drop_off_answered);
+        if (state.data.drop_off_answered) renderCalendar();
+    }
+
     function renderCalendar() {
         const mn = lang() === 'nl' ? ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'] : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         document.getElementById('kivii-cal-title').textContent = `${mn[state.calendar.month - 1]} ${state.calendar.year}`;
@@ -329,9 +349,14 @@
     }
 
     document.querySelectorAll('input[name="is_drop_off"]').forEach(r => r.addEventListener('change', () => {
+        state.data.drop_off_answered = true;
         state.data.is_drop_off = r.value === '1';
+        state.data.appointment_date = '';
         state.data.appointment_time = ''; state.data.drop_off_time = '';
-        if (state.data.appointment_date) { if (state.data.is_drop_off) renderDropOff(); else renderSlots(); }
+        clrErr();
+        setStep3Visibility(true);
+        renderCalendar();
+        updateSidebar();
     }));
 
     document.getElementById('kivii-cal-prev')?.addEventListener('click', () => { state.calendar.month--; if (state.calendar.month < 1) { state.calendar.month = 12; state.calendar.year--; } renderCalendar(); });
@@ -368,6 +393,9 @@
             const ts = state.data.is_drop_off ? (state.data.drop_off_time || '—') + ' (achterlaten)' : (state.data.appointment_time || '—');
             if (te) te.textContent = ts;
             if (td) td.style.display = ''; if (tp) tp.style.display = 'none';
+        } else {
+            if (td) td.style.display = 'none';
+            if (tp) tp.style.display = '';
         }
     }
 
@@ -387,16 +415,17 @@
     }
 
     document.getElementById('kivii-new-booking')?.addEventListener('click', () => {
-        state.data = { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false };
+        state.data = { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, drop_off_answered: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false };
         servicesRendered = false;
         app.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]), textarea').forEach(e => e.value = '');
+        app.querySelectorAll('input[name="is_drop_off"]').forEach(e => e.checked = false);
         app.querySelectorAll('input[type="checkbox"]').forEach(e => e.checked = false);
         app.querySelectorAll('.kivii-service-card').forEach(c => { c.classList.remove('is-selected'); c.querySelector('.kivii-service-card__check').innerHTML = ''; });
         goToStep(1);
     });
 
     // ── Language switch ────────────────────
-    document.getElementById('lang-switch')?.addEventListener('change', () => { servicesRendered = false; if (state.step === 2) renderServices(); if (state.step === 3) renderCalendar(); });
+    document.getElementById('lang-switch')?.addEventListener('change', () => { servicesRendered = false; if (state.step === 2) renderServices(); if (state.step === 3) initializeStep3(); });
 
     // ── Init ───────────────────────────────
     goToStep(1);

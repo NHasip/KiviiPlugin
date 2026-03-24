@@ -27,13 +27,12 @@ class MockApiAdapter implements AvailabilityProviderInterface, BookingWriterInte
                 continue;
             }
 
-            // Random status
-            $rand   = wp_rand( 1, 10 );
+            // Deterministic status so mock mode stays predictable during testing.
             $status = 'available';
-            if ( $rand <= 2 ) {
+            if ( $d % 7 === 0 ) {
                 $status = 'full';
-            } elseif ( $rand <= 4 ) {
-                $status = 'almost_full';
+            } elseif ( $d % 3 === 0 ) {
+                $status = 'limited';
             }
 
             $days[] = [
@@ -57,8 +56,8 @@ class MockApiAdapter implements AvailabilityProviderInterface, BookingWriterInte
                 continue;
             }
 
-            // Random chance to remove slot
-            if ( wp_rand( 1, 10 ) <= 2 ) {
+            // Deterministic gaps so testing stays stable.
+            if ( ( $time / $step ) % 5 === 0 ) {
                 continue;
             }
 

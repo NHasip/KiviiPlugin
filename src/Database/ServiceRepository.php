@@ -25,13 +25,13 @@ class ServiceRepository {
     public function get_categories(): array {
         return $this->db->get_results(
             "SELECT * FROM {$this->categories_table} ORDER BY sort_order ASC, id ASC"
-        );
+        ) ?: [];
     }
 
     public function get_active_categories(): array {
         return $this->db->get_results(
             "SELECT * FROM {$this->categories_table} WHERE is_active = 1 ORDER BY sort_order ASC, id ASC"
-        );
+        ) ?: [];
     }
 
     public function get_category( int $id ): ?object {
@@ -82,12 +82,12 @@ class ServiceRepository {
                     "SELECT * FROM {$this->services_table} WHERE category_id = %d ORDER BY sort_order ASC, id ASC",
                     $category_id
                 )
-            );
+            ) ?: [];
         }
 
         return $this->db->get_results(
             "SELECT * FROM {$this->services_table} ORDER BY sort_order ASC, id ASC"
-        );
+        ) ?: [];
     }
 
     public function get_service( int $id ): ?object {
@@ -108,7 +108,7 @@ class ServiceRepository {
                 "SELECT * FROM {$this->services_table} WHERE id IN ($placeholders)",
                 ...$ids
             )
-        );
+        ) ?: [];
     }
 
     public function create_service( array $data ): int|false {
@@ -210,7 +210,7 @@ class ServiceRepository {
                      ORDER BY sort_order ASC, id ASC",
                     $cat->id
                 )
-            );
+            ) ?: [];
 
             $result[] = [
                 'id'             => (int) $cat->id,

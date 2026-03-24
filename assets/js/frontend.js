@@ -8,6 +8,9 @@
     const app = document.getElementById('kivii-booking-app');
     if (!app) return;
 
+    const cfg = window.kiviiData || {};
+    const initialServices = Array.isArray(cfg.services) ? cfg.services : [];
+
     // ── State ──────────────────────────────
     const state = {
         step: 1,
@@ -17,6 +20,7 @@
             mileage: '',
             selected_services: [],
             is_drop_off: false,
+            drop_off_answered: false,
             appointment_date: '',
             appointment_time: '',
             drop_off_time: '',
@@ -32,14 +36,13 @@
             remarks: '',
             privacy_accepted: false,
         },
-        services: [],
+        services: initialServices,
         calendar: { month: new Date().getMonth() + 1, year: new Date().getFullYear() },
         availableDays: {},
         availableSlots: [],
     };
 
     // ── Config from WP ─────────────────────
-    const cfg = window.kiviiData || {};
     const apiBase = cfg.restUrl || '/wp-json/kiviiweb/v1';
     const nonce = cfg.nonce || '';
     const lang = cfg.lang || cfg.language || 'nl';
@@ -158,7 +161,7 @@
 
         // Step-specific actions
         if (n === 2) loadServices();
-        if (n === 3) loadCalendar();
+        if (n === 3) initializeStep3();
 
         updateSidebar();
         app.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -213,9 +216,14 @@
         }
 
         if (n === 3) {
-            if (!state.data.appointment_date) { showError('appointment_date', t('error_date', 'Selecteer een datum.')); valid = false; }
-            if (!state.data.is_drop_off && !state.data.appointment_time) { showError('appointment_time', t('error_time', 'Selecteer een tijdstip.')); valid = false; }
-            if (state.data.is_drop_off && !state.data.drop_off_time) { showError('drop_off_time', t('error_drop_off', 'Selecteer een brengmoment.')); valid = false; }
+            if (!state.data.drop_off_answered) {
+                showError('is_drop_off', t('error_drop_off_choice', 'Maak eerst een keuze of u de auto achterlaat.'));
+                valid = false;
+            } else {
+                if (!state.data.appointment_date) { showError('appointment_date', t('error_date', 'Selecteer een datum.')); valid = false; }
+                if (!state.data.is_drop_off && !state.data.appointment_time) { showError('appointment_time', t('error_time', 'Selecteer een tijdstip.')); valid = false; }
+                if (state.data.is_drop_off && !state.data.drop_off_time) { showError('drop_off_time', t('error_drop_off', 'Selecteer een brengmoment.')); valid = false; }
+            }
         }
 
         if (n === 4) {
@@ -255,13 +263,21 @@
 
     // ── Step 2: Services ───────────────────
     async function loadServices() {
-        if (state.services.length > 0) return; // Already loaded
+        if (state.services.length > 0) {
+            renderServices();
+            return;
+        }
+
         const container = document.getElementById('kivii-services-container');
         container.innerHTML = '<div class="kivii-loading">' + t('loading', 'Laden...') + '</div>';
 
         const resp = await apiFetch('/services');
         if (resp.success && resp.data) {
             state.services = resp.data;
+            renderServices();
+        } else if (initialServices.length > 0) {
+            console.warn('Kivii services REST call failed, using localized fallback data.');
+            state.services = initialServices;
             renderServices();
         } else {
             container.innerHTML = '<p style="color:var(--kivii-error)">Kon werkzaamheden niet laden.</p>';
@@ -396,6 +412,29 @@
     }
 
     // ── Step 3: Calendar ───────────────────
+    function setStep3Visibility(showCalendar) {
+        const calendarEl = document.getElementById('kivii-calendar');
+        const slotsEl = document.getElementById('kivii-timeslots');
+        const dropOffEl = document.getElementById('kivii-dropoff-times');
+
+        if (calendarEl) {
+            calendarEl.style.display = showCalendar ? '' : 'none';
+        }
+
+        if (!showCalendar) {
+            if (slotsEl) slotsEl.style.display = 'none';
+            if (dropOffEl) dropOffEl.style.display = 'none';
+        }
+    }
+
+    function initializeStep3() {
+        setStep3Visibility(state.data.drop_off_answered);
+
+        if (state.data.drop_off_answered) {
+            loadCalendar();
+        }
+    }
+
     async function loadCalendar() {
         const totalDuration = getSelectedDetails().reduce((s, i) => s + i.duration, 0);
         const grid = document.getElementById('kivii-cal-grid');
@@ -443,7 +482,7 @@
 
             if (dayInfo && !isPast && !isWeekend) {
                 if (dayInfo.status === 'available') cls += ' has-availability';
-                else if (dayInfo.status === 'limited') cls += ' has-limited';
+                else if (dayInfo.status === 'limited' || dayInfo.status === 'almost_full') cls += ' has-limited';
                 else if (dayInfo.status === 'full') cls += ' has-full is-disabled';
             } else if (!isPast && !isWeekend && !dayInfo) {
                 cls += ' is-disabled'; // No data = not available
@@ -548,13 +587,15 @@
     // Drop-off toggle
     document.querySelectorAll('input[name="is_drop_off"]').forEach(radio => {
         radio.addEventListener('change', () => {
+            state.data.drop_off_answered = true;
             state.data.is_drop_off = radio.value === '1';
+            state.data.appointment_date = '';
             state.data.appointment_time = '';
             state.data.drop_off_time = '';
-            if (state.data.appointment_date) {
-                if (state.data.is_drop_off) renderDropOffTimes();
-                else loadTimeSlots();
-            }
+            clearErrors();
+            setStep3Visibility(true);
+            loadCalendar();
+            updateSidebar();
         });
     });
 
@@ -634,6 +675,9 @@
             if (timeEl) timeEl.textContent = timeStr;
             if (tsData) tsData.style.display = '';
             if (tsPlaceholder) tsPlaceholder.style.display = 'none';
+        } else {
+            if (tsData) tsData.style.display = 'none';
+            if (tsPlaceholder) tsPlaceholder.style.display = '';
         }
     }
 
@@ -673,7 +717,7 @@
                     showError(field, msg);
                 }
                 // Go to first step with error
-                const errorStepMap = { license_plate: 1, mileage: 1, services: 2, appointment_date: 3, appointment_time: 3, drop_off_time: 3 };
+                const errorStepMap = { license_plate: 1, mileage: 1, services: 2, is_drop_off: 3, appointment_date: 3, appointment_time: 3, drop_off_time: 3 };
                 for (const key of Object.keys(resp.errors)) {
                     if (errorStepMap[key]) { goToStep(errorStepMap[key]); break; }
                 }
@@ -689,10 +733,11 @@
     // New booking button
     document.getElementById('kivii-new-booking')?.addEventListener('click', () => {
         // Reset state
-        state.data = { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false };
+        state.data = { license_plate: '', mileage: '', selected_services: [], is_drop_off: false, drop_off_answered: false, appointment_date: '', appointment_time: '', drop_off_time: '', first_name: '', last_name: '', email: '', phone: '', street: '', house_number: '', house_addition: '', postal_code: '', city: '', remarks: '', privacy_accepted: false };
         state.services = [];
         // Reset form inputs
         app.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]), textarea').forEach(el => el.value = '');
+        app.querySelectorAll('input[name="is_drop_off"]').forEach(el => { el.checked = false; });
         app.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
         goToStep(1);
     });

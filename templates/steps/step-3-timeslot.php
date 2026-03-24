@@ -12,14 +12,15 @@
                 <span class="kivii-toggle__label" data-text="drop_off_yes">Ja, ik laat de auto achter</span>
             </label>
             <label class="kivii-toggle">
-                <input type="radio" name="is_drop_off" value="0" id="kivii-drop-off-no" checked>
+                <input type="radio" name="is_drop_off" value="0" id="kivii-drop-off-no">
                 <span class="kivii-toggle__label" data-text="drop_off_no">Nee, ik wacht op de auto</span>
             </label>
         </div>
+        <span class="kivii-error" id="error-is_drop_off"></span>
     </div>
 
     <!-- Calendar -->
-    <div class="kivii-calendar" id="kivii-calendar">
+    <div class="kivii-calendar" id="kivii-calendar" style="display:none;">
         <div class="kivii-calendar__header">
             <button type="button" class="kivii-calendar__nav" id="kivii-cal-prev" aria-label="Vorige maand">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

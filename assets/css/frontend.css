@@ -32,12 +32,59 @@
     --kivii-transition: .2s cubic-bezier(.4,0,.2,1);
     --kivii-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-    font-family: var(--kivii-font);
-    color: var(--kivii-text);
-    font-size: 15px;
-    line-height: 1.6;
+    font-family: var(--kivii-font) !important;
+    color: var(--kivii-text) !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    letter-spacing: normal !important;
+    text-align: left;
     max-width: 1040px;
     margin: 0 auto;
+    isolation: isolate;
+}
+
+.kivii-booking,
+.kivii-booking * {
+    font-family: var(--kivii-font) !important;
+}
+
+.kivii-booking :where(h1, h2, h3, h4, h5, h6, p, label, button, input, select, textarea) {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: normal !important;
+}
+
+.kivii-booking button {
+    all: unset;
+    box-sizing: border-box;
+    font: inherit !important;
+    color: inherit;
+    cursor: pointer;
+}
+
+.kivii-booking button:focus-visible,
+.kivii-booking input:focus-visible,
+.kivii-booking select:focus-visible,
+.kivii-booking textarea:focus-visible {
+    outline: 2px solid var(--kivii-primary);
+    outline-offset: 2px;
+}
+
+.kivii-booking button,
+.kivii-booking input,
+.kivii-booking select,
+.kivii-booking textarea {
+    font: inherit !important;
+}
+
+.kivii-booking h1,
+.kivii-booking h2,
+.kivii-booking h3,
+.kivii-booking h4,
+.kivii-booking h5,
+.kivii-booking h6,
+.kivii-booking p {
+    color: inherit;
 }
 
 /* ── Progress Bar ─────────────────────────── */
@@ -67,16 +114,26 @@
     justify-content: space-between;
 }
 
-.kivii-progress__step {
+.kivii-booking .kivii-progress__step {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: .4rem;
-    background: none;
-    border: none;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    background: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
     cursor: pointer;
     opacity: .45;
     transition: opacity var(--kivii-transition);
+    color: inherit !important;
+    text-transform: none !important;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
 .kivii-progress__step.is-active,
@@ -129,11 +186,12 @@
     align-items: start;
 }
 
-.kivii-main {
-    background: white;
-    border-radius: var(--kivii-radius);
-    box-shadow: var(--kivii-shadow-sm);
-    border: 1px solid var(--kivii-border);
+.kivii-booking .kivii-main {
+    background: white !important;
+    background-image: none !important;
+    border-radius: var(--kivii-radius) !important;
+    box-shadow: var(--kivii-shadow-sm) !important;
+    border: 1px solid var(--kivii-border) !important;
 }
 
 /* ── Steps ────────────────────────────────── */
@@ -152,17 +210,21 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.kivii-step__title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--kivii-text);
-    margin-bottom: .35rem;
+.kivii-booking .kivii-step__title {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: var(--kivii-text) !important;
+    margin-bottom: .35rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
 }
 
-.kivii-step__subtitle {
-    color: var(--kivii-text-muted);
-    margin-bottom: 1.5rem;
-    font-size: .95rem;
+.kivii-booking .kivii-step__subtitle {
+    color: var(--kivii-text-muted) !important;
+    margin-bottom: 1.5rem !important;
+    font-size: .95rem !important;
+    line-height: 1.6 !important;
 }
 
 /* ── Form Elements ────────────────────────── */
@@ -170,26 +232,28 @@
     margin-bottom: 1.25rem;
 }
 
-.kivii-label {
+.kivii-booking .kivii-label {
     display: block;
-    font-weight: 600;
-    font-size: .85rem;
-    margin-bottom: .4rem;
-    color: var(--kivii-text);
-    text-transform: uppercase;
-    letter-spacing: .03em;
+    font-weight: 600 !important;
+    font-size: .85rem !important;
+    margin-bottom: .4rem !important;
+    color: var(--kivii-text) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .03em !important;
 }
 
-.kivii-input {
+.kivii-booking .kivii-input {
     width: 100%;
-    padding: .65rem .85rem;
-    font-size: .95rem;
-    border: 1.5px solid var(--kivii-border);
-    border-radius: var(--kivii-radius);
-    background: white;
-    color: var(--kivii-text);
+    padding: .65rem .85rem !important;
+    font-size: .95rem !important;
+    border: 1.5px solid var(--kivii-border) !important;
+    border-radius: var(--kivii-radius) !important;
+    background: white !important;
+    background-image: none !important;
+    color: var(--kivii-text) !important;
     transition: border-color var(--kivii-transition), box-shadow var(--kivii-transition);
-    font-family: var(--kivii-font);
+    box-shadow: none !important;
+    font-family: var(--kivii-font) !important;
 }
 
 .kivii-input:focus {
@@ -217,13 +281,14 @@
 }
 
 /* ── License Plate Input ──────────────────── */
-.kivii-plate-input {
+.kivii-booking .kivii-plate-input {
     display: flex;
     align-items: stretch;
-    border-radius: var(--kivii-radius);
+    border-radius: var(--kivii-radius) !important;
     overflow: hidden;
-    border: 2px solid #000000;
-    background: #FDCB00;
+    border: 2px solid #000000 !important;
+    background: #FDCB00 !important;
+    background-image: none !important;
     transition: border-color var(--kivii-transition), box-shadow var(--kivii-transition);
 }
 
@@ -232,28 +297,28 @@
     box-shadow: 0 0 0 3px rgba(253, 203, 0, .35);
 }
 
-.kivii-plate-input__prefix {
+.kivii-booking .kivii-plate-input__prefix {
     display: flex;
     align-items: center;
-    padding: 0 .85rem;
-    background: #00529B;
-    color: white;
-    border-right: 2px solid #000000;
-    font-weight: 700;
-    font-size: .85rem;
-    letter-spacing: .05em;
+    padding: 0 .85rem !important;
+    background: #00529B !important;
+    color: white !important;
+    border-right: 2px solid #000000 !important;
+    font-weight: 700 !important;
+    font-size: .85rem !important;
+    letter-spacing: .05em !important;
 }
 
-.kivii-plate-input__field {
-    background: #FDCB00;
-    color: #000000;
-    border: none;
-    border-radius: 0;
+.kivii-booking .kivii-plate-input__field {
+    background: #FDCB00 !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 0 !important;
     min-width: 0;
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: .1em;
-    font-size: 1.1rem;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    letter-spacing: .1em !important;
+    font-size: 1.1rem !important;
 }
 
 .kivii-plate-input__field::placeholder {
@@ -265,12 +330,14 @@
 }
 
 /* ── Input with suffix ────────────────────── */
-.kivii-input-suffix {
+.kivii-booking .kivii-input-suffix {
     display: flex;
     align-items: stretch;
-    border: 1.5px solid var(--kivii-border);
-    border-radius: var(--kivii-radius);
+    border: 1.5px solid var(--kivii-border) !important;
+    border-radius: var(--kivii-radius) !important;
     overflow: hidden;
+    background: white !important;
+    background-image: none !important;
     transition: border-color var(--kivii-transition), box-shadow var(--kivii-transition);
 }
 
@@ -287,15 +354,15 @@
 
 .kivii-input-suffix .kivii-input:focus { box-shadow: none; }
 
-.kivii-input-suffix__text {
+.kivii-booking .kivii-input-suffix__text {
     display: flex;
     align-items: center;
-    padding: 0 .85rem;
-    background: var(--kivii-bg);
-    color: var(--kivii-text-muted);
-    font-weight: 600;
-    font-size: .8rem;
-    letter-spacing: .05em;
+    padding: 0 .85rem !important;
+    background: var(--kivii-bg) !important;
+    color: var(--kivii-text-muted) !important;
+    font-weight: 600 !important;
+    font-size: .8rem !important;
+    letter-spacing: .05em !important;
 }
 
 /* ── Form Rows ────────────────────────────── */
@@ -335,21 +402,26 @@
 
 .kivii-toggle input { display: none; }
 
-.kivii-toggle__label {
-    padding: .55rem 1.2rem;
-    border: 2px solid var(--kivii-border);
-    border-radius: var(--kivii-radius);
-    font-size: .9rem;
-    font-weight: 500;
+.kivii-booking .kivii-toggle__label {
+    padding: .55rem 1.2rem !important;
+    border: 2px solid var(--kivii-border) !important;
+    border-radius: var(--kivii-radius) !important;
+    font-size: .9rem !important;
+    font-weight: 500 !important;
+    background: white !important;
+    background-image: none !important;
+    color: var(--kivii-text) !important;
     transition: all var(--kivii-transition);
     user-select: none;
+    box-shadow: none !important;
+    text-transform: none !important;
 }
 
 .kivii-toggle input:checked + .kivii-toggle__label {
-    border-color: var(--kivii-primary);
-    background: var(--kivii-primary-light);
-    color: var(--kivii-primary);
-    font-weight: 600;
+    border-color: var(--kivii-primary) !important;
+    background: var(--kivii-primary-light) !important;
+    color: var(--kivii-primary) !important;
+    font-weight: 600 !important;
 }
 
 /* ── Calendar ─────────────────────────────── */
@@ -368,22 +440,40 @@
     margin-bottom: 1rem;
 }
 
-.kivii-calendar__month {
-    font-size: 1.05rem;
-    font-weight: 700;
+.kivii-booking .kivii-calendar__month {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: var(--kivii-text) !important;
 }
 
-.kivii-calendar__nav {
+.kivii-booking .kivii-calendar__nav {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     border: 1px solid var(--kivii-border);
-    background: white;
+    background: white !important;
+    background-image: none !important;
+    box-shadow: none !important;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all var(--kivii-transition);
+    color: var(--kivii-text);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.kivii-booking .kivii-calendar__nav svg {
+    display: block !important;
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 auto;
+    pointer-events: none;
+}
+
+.kivii-booking .kivii-calendar__nav svg path {
+    stroke: currentColor !important;
 }
 
 .kivii-calendar__nav:hover {
@@ -392,15 +482,15 @@
     color: var(--kivii-primary);
 }
 
-.kivii-calendar__weekdays {
+.kivii-booking .kivii-calendar__weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    font-size: .75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    color: var(--kivii-text-muted);
+    font-size: .75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .05em !important;
+    color: var(--kivii-text-muted) !important;
     margin-bottom: .5rem;
 }
 
@@ -410,61 +500,69 @@
     gap: 4px;
 }
 
-.kivii-calendar__day {
+.kivii-booking .kivii-calendar__day {
     aspect-ratio: 1;
+    width: 100%;
+    min-height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    font-size: .85rem;
-    font-weight: 500;
+    border-radius: 50% !important;
+    font-size: .85rem !important;
+    font-weight: 500 !important;
     cursor: pointer;
-    border: none;
-    background: none;
+    border: none !important;
+    background: transparent !important;
+    background-image: none !important;
+    color: var(--kivii-text) !important;
     transition: all var(--kivii-transition);
     position: relative;
+    box-shadow: none !important;
+    text-transform: none !important;
 }
 
-.kivii-calendar__day:hover:not(.is-disabled):not(.is-empty) {
-    background: var(--kivii-primary-light);
-    color: var(--kivii-primary);
+.kivii-booking .kivii-calendar__day:hover:not(.is-disabled):not(.is-empty) {
+    background: var(--kivii-primary-light) !important;
+    color: var(--kivii-primary) !important;
 }
 
-.kivii-calendar__day.is-selected {
+.kivii-booking .kivii-calendar__day.is-selected {
     background: var(--kivii-primary) !important;
     color: var(--kivii-on-primary) !important;
-    font-weight: 700;
-    box-shadow: 0 2px 8px color-mix(in srgb, var(--kivii-primary) 30%, transparent);
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--kivii-primary) 30%, transparent) !important;
 }
 
-.kivii-calendar__day.is-today {
-    border: 2px solid var(--kivii-primary);
+.kivii-booking .kivii-calendar__day.is-today {
+    border: 2px solid var(--kivii-primary) !important;
 }
 
-.kivii-calendar__day.is-disabled {
+.kivii-booking .kivii-calendar__day.is-disabled {
     opacity: .3;
     cursor: not-allowed;
 }
 
-.kivii-calendar__day.is-empty {
+.kivii-booking .kivii-calendar__day.is-empty {
     pointer-events: none;
 }
 
-.kivii-calendar__day.has-availability::after {
+.kivii-booking .kivii-calendar__day.has-availability::after {
     content: '';
     position: absolute;
     bottom: 4px;
+    left: 50%;
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background: var(--kivii-success);
+    transform: translateX(-50%);
 }
 
-.kivii-calendar__day.has-limited::after {
+.kivii-booking .kivii-calendar__day.has-limited::after {
     background: var(--kivii-warning);
 }
 
-.kivii-calendar__day.has-full::after {
+.kivii-booking .kivii-calendar__day.has-full::after {
     background: var(--kivii-error);
 }
 
@@ -507,10 +605,11 @@
     margin-top: 1.5rem;
 }
 
-.kivii-timeslots__title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: .75rem;
+.kivii-booking .kivii-timeslots__title {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    margin-bottom: .75rem !important;
+    color: var(--kivii-text) !important;
 }
 
 .kivii-timeslots__grid {
@@ -519,28 +618,34 @@
     gap: .5rem;
 }
 
-.kivii-timeslot {
-    padding: .6rem;
+.kivii-booking .kivii-timeslot {
+    padding: .6rem !important;
     text-align: center;
-    border: 2px solid var(--kivii-border);
-    border-radius: var(--kivii-radius);
-    background: white;
+    border: 2px solid var(--kivii-border) !important;
+    border-radius: var(--kivii-radius) !important;
+    background: white !important;
+    background-image: none !important;
+    box-shadow: none !important;
     cursor: pointer;
-    font-weight: 600;
-    font-size: .9rem;
+    font-weight: 600 !important;
+    font-size: .9rem !important;
+    color: var(--kivii-text) !important;
     transition: all var(--kivii-transition);
+    appearance: none;
+    -webkit-appearance: none;
+    text-transform: none !important;
 }
 
-.kivii-timeslot:hover:not(.is-disabled) {
-    border-color: var(--kivii-primary);
-    background: var(--kivii-primary-light);
-    color: var(--kivii-primary);
+.kivii-booking .kivii-timeslot:hover:not(.is-disabled) {
+    border-color: var(--kivii-primary) !important;
+    background: var(--kivii-primary-light) !important;
+    color: var(--kivii-primary) !important;
 }
 
-.kivii-timeslot.is-selected {
-    border-color: var(--kivii-primary);
-    background: var(--kivii-primary);
-    color: var(--kivii-on-primary);
+.kivii-booking .kivii-timeslot.is-selected {
+    border-color: var(--kivii-primary) !important;
+    background: var(--kivii-primary) !important;
+    color: var(--kivii-on-primary) !important;
 }
 
 .kivii-timeslot.is-disabled {
@@ -725,25 +830,31 @@
     border-top: 1px solid var(--kivii-border);
 }
 
-.kivii-btn {
+.kivii-booking .kivii-btn {
     display: inline-flex;
     align-items: center;
     gap: .5rem;
-    padding: .7rem 1.6rem;
-    border-radius: var(--kivii-radius);
-    font-size: .95rem;
-    font-weight: 600;
+    padding: .7rem 1.6rem !important;
+    border-radius: var(--kivii-radius) !important;
+    font-size: .95rem !important;
+    font-weight: 600 !important;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 2px solid transparent !important;
     transition: all var(--kivii-transition);
-    font-family: var(--kivii-font);
-    text-decoration: none;
+    font-family: var(--kivii-font) !important;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    line-height: 1.2 !important;
+    text-transform: none !important;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
 .kivii-btn--primary {
-    background: var(--kivii-primary);
-    color: white;
-    border-color: var(--kivii-primary);
+    background: var(--kivii-primary) !important;
+    color: white !important;
+    border-color: var(--kivii-primary) !important;
 }
 
 .kivii-btn--primary:hover {
@@ -754,9 +865,9 @@
 }
 
 .kivii-btn--outline {
-    background: white;
-    color: var(--kivii-primary);
-    border-color: var(--kivii-border);
+    background: white !important;
+    color: var(--kivii-primary) !important;
+    border-color: var(--kivii-border) !important;
 }
 
 .kivii-btn--outline:hover {
@@ -780,18 +891,21 @@
     display: none;
 }
 
-.kivii-sidebar__content {
-    background: white;
-    border-radius: var(--kivii-radius);
-    box-shadow: var(--kivii-shadow-sm);
-    border: 1px solid var(--kivii-border);
-    padding: 1.5rem;
+.kivii-booking .kivii-sidebar__content {
+    background: white !important;
+    background-image: none !important;
+    border-radius: var(--kivii-radius) !important;
+    box-shadow: var(--kivii-shadow-sm) !important;
+    border: 1px solid var(--kivii-border) !important;
+    padding: 1.5rem !important;
 }
 
-.kivii-sidebar__title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+.kivii-booking .kivii-sidebar__title {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.2 !important;
+    color: var(--kivii-text) !important;
 }
 
 .kivii-sidebar__section {
@@ -816,10 +930,11 @@
     font-size: 1.1rem;
 }
 
-.kivii-sidebar__heading {
-    font-weight: 600;
-    font-size: .85rem;
+.kivii-booking .kivii-sidebar__heading {
+    font-weight: 600 !important;
+    font-size: .85rem !important;
     flex: 1;
+    color: var(--kivii-text) !important;
 }
 
 .kivii-sidebar__count {
@@ -831,13 +946,24 @@
     border-radius: 10px;
 }
 
-.kivii-sidebar__expand {
-    background: none;
-    border: none;
+.kivii-booking .kivii-sidebar__expand {
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    background: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
     cursor: pointer;
     display: flex;
     color: var(--kivii-text-muted);
     transition: transform var(--kivii-transition);
+    padding: 0 !important;
+    margin: 0 !important;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
 .kivii-sidebar__body {
@@ -897,11 +1023,11 @@
     100% { transform: scale(1); opacity: 1; }
 }
 
-.kivii-confirmation__title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--kivii-primary);
-    margin-bottom: .5rem;
+.kivii-booking .kivii-confirmation__title {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    color: var(--kivii-primary) !important;
+    margin-bottom: .5rem !important;
 }
 
 .kivii-confirmation__message {

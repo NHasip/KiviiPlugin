@@ -142,9 +142,16 @@ class Plugin {
         }
 
         wp_enqueue_style(
+            'kivii-fonts',
+            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+            [],
+            null
+        );
+
+        wp_enqueue_style(
             'kivii-frontend',
             KIVII_PLUGIN_URL . 'assets/css/frontend.css',
-            [],
+            [ 'kivii-fonts' ],
             KIVII_VERSION
         );
 
@@ -213,12 +220,12 @@ class Plugin {
         $text      = $options['text_color'] ?? '#1A1A2E';
 
         echo '<style id="kivii-css-vars">
-        :root {
-            --kivii-primary: ' . esc_attr( $primary ) . ';
-            --kivii-secondary: ' . esc_attr( $secondary ) . ';
-            --kivii-radius: ' . intval( $radius ) . 'px;
-            --kivii-bg: ' . esc_attr( $bg ) . ';
-            --kivii-text: ' . esc_attr( $text ) . ';
+        .kivii-booking {
+            --kivii-color-primary: ' . esc_attr( $primary ) . ';
+            --kivii-color-secondary: ' . esc_attr( $secondary ) . ';
+            --kivii-border-radius: ' . intval( $radius ) . 'px;
+            --kivii-color-background: ' . esc_attr( $bg ) . ';
+            --kivii-color-text: ' . esc_attr( $text ) . ';
             --kivii-success: #B0C426;
             --kivii-error: #DC2626;
             --kivii-warning: #F59E0B;

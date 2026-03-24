@@ -3,7 +3,7 @@
  * Plugin Name:       Kivii Online Afspraak
  * Plugin URI:        https://kivii.nl
  * Description:       Online afsprakenplanner voor garages. Synchroniseert met Kivii agenda via API.
- * Version:           1.1.0
+ * Version:           1.1.5
  * Requires at least: 6.0
  * Requires PHP:      8.4
  * Author:            Kivii
@@ -19,12 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants
-define( 'KIVII_VERSION', '1.1.0' );
+define( 'KIVII_VERSION', '1.1.5' );
 define( 'KIVII_PLUGIN_FILE', __FILE__ );
 define( 'KIVII_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KIVII_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'KIVII_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'KIVII_DB_VERSION', '1.1.0' );
+define( 'KIVII_DB_VERSION', '1.1.1' );
 
 // Autoloader
 require_once KIVII_PLUGIN_DIR . 'src/Autoloader.php';

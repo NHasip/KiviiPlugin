@@ -86,6 +86,7 @@ class Translator {
                 'day_full'             => 'Vol',
                 'no_slots'             => 'Geen tijdsloten beschikbaar voor deze dag.',
                 'calendar_note'        => 'Wij houden altijd ruimte vrij voor spoedgevallen.',
+                'error_drop_off_choice'=> 'Maak eerst een keuze of u de auto achterlaat.',
 
                 // Step 4
                 'step4_title'          => 'Uw contactgegevens',
@@ -161,6 +162,7 @@ class Translator {
                 'day_full'             => 'Full',
                 'no_slots'             => 'No time slots available for this day.',
                 'calendar_note'        => 'We always keep room for emergencies.',
+                'error_drop_off_choice'=> 'Please choose first whether you will leave the car.',
 
                 'step4_title'          => 'Your contact details',
                 'step4_subtitle'       => 'Enter your details to confirm the appointment.',
